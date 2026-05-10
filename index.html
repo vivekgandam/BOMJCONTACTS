@@ -691,32 +691,6 @@ searchInput.addEventListener("keyup", function(){
 
 });
 
-/* DEVICE DETECTION */
-
-function detectDevice(){
-
-    const width = window.innerWidth;
-    const deviceTag = document.getElementById("deviceTag");
-
-    if(width <= 480){
-
-        deviceTag.innerHTML = "📱 Mobile Device";
-
-    }else if(width <= 1024){
-
-        deviceTag.innerHTML = "📲 Tablet Device";
-
-    }else{
-
-        deviceTag.innerHTML = "💻 Desktop Device";
-
-    }
-
-}
-
-detectDevice();
-
-window.addEventListener("resize", detectDevice);
 
 </script>
 
