@@ -1,775 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Contact Info</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-            color: #333;
-            transition: background-color 0.5s ease-in-out; /* Smooth transition for body background */
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BOMJ - Store Contact Directory</title>
 
-        /* Splash Screen Styles */
-        .splash-screen {
-            position: fixed; /* Covers the whole screen */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #2874f0; /* Amazon-like blue */
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            z-index: 1000; /* Ensure it's on top */
-            transition: opacity 1s ease-in-out; /* Fade out transition */
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        .splash-screen.hidden {
-            opacity: 0;
-            pointer-events: none; /* Make it unclickable when hidden */
-        }
+<style>
 
-        .splash-screen img {
-            width: 150px; /* Adjust logo size */
-            margin-bottom: 10px;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .splash-screen p {
-            margin: 0;
-            font-weight: bold;
-            font-size: 1.5em; /* Size for "BOMJ" */
-            letter-spacing: 2px;
-        }
+:root{
+    --amazon-blue:#131921;
+    --amazon-light:#232f3e;
+    --amazon-yellow:#febd69;
+    --amazon-orange:#ff9900;
+    --white:#ffffff;
+    --light-bg:#f3f4f6;
+    --text:#111827;
+    --gray:#6b7280;
+    --border:#e5e7eb;
+}
 
-        /* Main Content Styles (the table) */
-        .main-content {
-            width: 90%;
-            max-width: 1200px; /* Max width for larger screens */
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            opacity: 0; /* Initially hidden, revealed by JS */
-            transform: translateY(20px); /* Slight move down to simulate appearing */
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-        }
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#f5f7fa,#eef2f7);
+    min-height:100vh;
+    overflow-x:hidden;
+    color:var(--text);
+}
 
-        .main-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* =========================
+   SPLASH SCREEN
+========================= */
 
-        h1 {
-            text-align: center;
-            color: #0056b3;
-            margin-bottom: 30px;
-        }
+.splash-screen{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(135deg,#131921,#232f3e);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:9999;
+    transition:all 1s ease;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
+.splash-screen.hidden{
+    opacity:0;
+    visibility:hidden;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-            text-align: left;
-        }
+.amazon-logo{
+    width:220px;
+    animation:float 2s ease-in-out infinite;
+    filter:drop-shadow(0 10px 25px rgba(0,0,0,0.4));
+}
 
-        th {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0px);}
+}
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+.bomj-text{
+    margin-top:18px;
+    font-size:38px;
+    font-weight:700;
+    letter-spacing:6px;
+    color:white;
+}
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
+.loading-bar{
+    width:250px;
+    height:6px;
+    background:rgba(255,255,255,0.15);
+    margin-top:35px;
+    border-radius:20px;
+    overflow:hidden;
+}
 
-        td:nth-child(2) { /* Style for SO CONTACT INFO column */
-            white-space: nowrap; /* Prevent phone numbers from breaking */
-        }
+.loading-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff9900,#febd69);
+    animation:loading 3s linear forwards;
+}
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .splash-screen img {
-                width: 100px;
-            }
-            .splash-screen p {
-                font-size: 1.2em;
-            }
-            th, td {
-                padding: 8px 10px;
-                font-size: 0.9em;
-            }
-        }
-    </style>
+@keyframes loading{
+    to{
+        width:100%;
+    }
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.main-content{
+    opacity:0;
+    transform:translateY(30px);
+    transition:1s ease;
+    padding:30px;
+}
+
+.main-content.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================
+   TOP NAVBAR
+========================= */
+
+.topbar{
+    background:var(--amazon-blue);
+    border-radius:22px;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    margin-bottom:30px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.brand img{
+    width:120px;
+}
+
+.brand-text{
+    color:white;
+}
+
+.brand-text h1{
+    font-size:26px;
+    font-weight:700;
+}
+
+.brand-text p{
+    font-size:13px;
+    opacity:0.7;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+    transition:0.3s ease;
+    border:1px solid rgba(255,255,255,0.6);
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card h2{
+    font-size:34px;
+    color:var(--amazon-orange);
+    margin-bottom:8px;
+}
+
+.card p{
+    color:var(--gray);
+    font-weight:500;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box{
+    margin-bottom:25px;
+    display:flex;
+    justify-content:center;
+}
+
+.search-box input{
+    width:100%;
+    max-width:500px;
+    padding:16px 22px;
+    border:none;
+    outline:none;
+    border-radius:50px;
+    background:white;
+    font-size:15px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   TABLE SECTION
+========================= */
+
+.table-container{
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.table-header{
+    background:linear-gradient(135deg,#232f3e,#131921);
+    color:white;
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.table-header h2{
+    font-size:24px;
+}
+
+.table-header span{
+    font-size:14px;
+    opacity:0.8;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f9fafb;
+}
+
+th{
+    text-align:left;
+    padding:18px 20px;
+    color:#374151;
+    font-size:14px;
+    font-weight:700;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:18px 20px;
+    border-bottom:1px solid #f1f1f1;
+    font-size:14px;
+}
+
+tbody tr{
+    transition:0.25s ease;
+}
+
+tbody tr:hover{
+    background:#fff8ef;
+    transform:scale(1.002);
+}
+
+.phone{
+    color:#2563eb;
+    font-weight:600;
+}
+
+.store-badge{
+    background:#fff3cd;
+    color:#92400e;
+    padding:6px 14px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.empty{
+    color:#c4c4c4;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    margin-top:35px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .topbar{
+        flex-direction:column;
+        gap:20px;
+        text-align:center;
+    }
+
+    .table-container{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:850px;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <!-- Splash Screen -->
-    <div id="splashScreen" class="splash-screen">
-        <!-- You can use an actual image tag if you have an Amazon logo URL -->
-        <!-- <img src="URL_TO_YOUR_AMAZON_LOGO.png" alt="Amazon Logo"> -->
-        <p>BOMJ</p>
+<!-- SPLASH SCREEN -->
+
+<div class="splash-screen" id="splashScreen">
+
+    <!-- AMAZON LOGO -->
+    <img 
+    class="amazon-logo"
+    src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+    alt="Amazon Logo">
+
+    <div class="bomj-text">BOMJ</div>
+
+    <div class="loading-bar">
+        <div class="loading-fill"></div>
     </div>
 
-    <!-- Main Content (your table) -->
-    <div id="mainContent" class="main-content">
-        <h1>Employee Contact Information</h1>
-        <table>
+</div>
+
+<!-- MAIN CONTENT -->
+
+<div class="main-content" id="mainContent">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div class="brand">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
+
+            <div class="brand-text">
+                <h1>BOMJ Store Directory</h1>
+                <p>Professional Store & SO Contact Management Portal</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="card">
+            <h2>95+</h2>
+            <p>Total Stores</p>
+        </div>
+
+        <div class="card">
+            <h2>24</h2>
+            <p>Available Contacts</p>
+        </div>
+
+        <div class="card">
+            <h2>100%</h2>
+            <p>Professional Interface</p>
+        </div>
+
+        <div class="card">
+            <h2>BOMJ</h2>
+            <p>Operations Network</p>
+        </div>
+
+    </div>
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search store name, SO name or contact number...">
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-container">
+
+        <div class="table-header">
+            <h2>Store Contact Information</h2>
+            <span>Amazon Styled Professional Dashboard</span>
+        </div>
+
+        <table id="employeeTable">
+
             <thead>
                 <tr>
-                    <th>NAME OF EMPLOYEE</th>
-                    <th>SO CONTACT INFO</th>
+                    <th>STORE NAME</th>
+                    <th>CONTACT INFO</th>
                     <th>SO NAME</th>
-                    <th>XPT/STORE</th>
+                    <th>XPT / STORE</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 <tr>
-                    <td>Store/IN-400067-797/Mahendra_water_supply_</td>
-                    <td>9833379406</td>
+                    <td>Mahendra Water Supply</td>
+                    <td class="phone">9833379406</td>
                     <td>MANGESH</td>
-                    <td>SWEET VOICE XPT</td>
+                    <td><span class="store-badge">SWEET VOICE XPT</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400092-283/Make_My_Style_Family_Salon</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-371/Om_mobile</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-345/Expert_Security_Service</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-366/Aayush_Profile_Aluminium</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-126/Sweet_Voice_Universe</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-273/Aanya_Enterprise</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-377/Om_sai_ram_laundry_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-863/Igadget_Hub</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-386/RAJESH_COMPUTER_&_WEBSITE_SERVICES</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-768/Universal_Voice_Mobail_Shop</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-393/Shree_Haridas_decorator</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-300/MRK_Mobile_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-155/Shree_Swami_Samarth_Enterprises</td>
-                    <td>9321401678</td>
+                    <td>Shree Swami Samarth Enterprises</td>
+                    <td class="phone">9321401678</td>
                     <td>TUSAR</td>
-                    <td>SWAMI SAMARTH XPT</td>
+                    <td><span class="store-badge">SWAMI SAMARTH XPT</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-728/Ramesh_Tailor</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-214/Suman_Sandwich</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400091-83/chinese_Corner</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-378/Shri_Hari_krupa_salon_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-375/Shree_Swami_samarth_optician_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-387/Rajlaxmi_Collection_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-384/Soham_Enterprises</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-149/Patel_General_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400091-76/R.k.Enterprises_And_Ganerel_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400091-87/Sai_power_loundry_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400091-77/Om_Sai_Ram_Ganeral_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-157/S_K_Hosiery_</td>
-                    <td>8452872547</td>
+                    <td>S K Hosiery</td>
+                    <td class="phone">8452872547</td>
                     <td>SAMEER</td>
-                    <td>MAHILA</td>
+                    <td><span class="store-badge">MAHILA</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-332/Tha_Max_Hair_Cutting_Salon</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-703/Casa_Mobile_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-708/Ayan_Real_Estate_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-773/Shah_classes_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-780/Star_mobile_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-828/Guddu_fabrication_works</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-868/K.s_classes</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-265/SS_Biryani_Center</td>
-                    <td>7666824645</td>
+                    <td>SS Biryani Center</td>
+                    <td class="phone">7666824645</td>
                     <td>AKIB</td>
-                    <td>SAI SALON</td>
+                    <td><span class="store-badge">SAI SALON</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400091-65/Saivankar_Mobile_And_Computer</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-219/Sai_Salon</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-383/Shear_image_salon_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-382/Rajus_bling_salon_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-368/Shree_Swami_Samarth_Dairy_</td>
-                    <td>9930396423</td>
+                    <td>Shree Swami Samarth Dairy</td>
+                    <td class="phone">9930396423</td>
                     <td>AARTHI</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400092-400/Multi_Mart_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-875/Harshid_Enterprises</td>
-                    <td>93249 33479</td>
+                    <td>Harshid Enterprises</td>
+                    <td class="phone">9324933479</td>
                     <td>CHAWDA</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-885/Raja_Chinese_Corner</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-409/Kesri_Ganeral_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-81/Vinod_General_Store</td>
-                    <td>9867107838</td>
+                    <td>Vinod General Store</td>
+                    <td class="phone">9867107838</td>
                     <td>VINOD</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400095-355/Shri_Mahavir_Prasad_Prajapati_and_general_store_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Deepika General Store</td>
+                    <td class="phone">8898633083</td>
+                    <td>MAHESH</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400095-62/Beauty_Queen_Parlour</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>Lama Corner Hotel</td>
+                    <td class="phone">8169656648</td>
+                    <td>NOMAN</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-250/Deepika_General_Store</td>
-                    <td>8898633083</td>
-                    <td>mahesh</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-671/Sapana_Enterprises_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-876/Lama_corner_hotel_</td>
-                    <td>8169656648</td>
-                    <td>noman</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-816/Shree_Laxminarayan_Ganeral_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-865/Shree_Bappa_Sitaram_Dairy_Farm</td>
-                    <td>8005913273</td>
-                    <td>SHREE BAPPA</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-881/Radhe_Krishna_Courier_Service</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-395/Craze_Tailors_&_Boutique</td>
-                    <td>9004380358</td>
+                    <td>Craze Tailors & Boutique</td>
+                    <td class="phone">9004380358</td>
                     <td>RAHUL</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400092-271/Nityanand_Pan_Bidi_Shop</td>
-                    <td>9137399612</td>
-                    <td>PRINCE</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400103-164/Sachin_auto_garage</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400103-151/Welcome_stationery</td>
-                    <td>(WA ONLY ) 9082805776</td>
+                    <td>Welcome Stationery</td>
+                    <td class="phone">9082805776</td>
                     <td>KADIR</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">WA ONLY</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-903/Ganesh_electric_work</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>9699916875</td>
-                    <td>AMLESH</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-668/Mayur_Pan_Bidi_&_Cold_Drink_House</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-794/Shreeram_mobile_store</td>
-                    <td>9773531234</td>
-                    <td>SALIM</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-841/Nizam_Medical_And_Ganral_store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-831/Arhaan_Boutique</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-900/Royal_pipe_centre</td>
-                    <td>8286427345</td>
+                    <td>Royal Pipe Centre</td>
+                    <td class="phone">8286427345</td>
                     <td>NITHYA</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-906/Mahalaxmi_store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-505/Ariba_Enterprises</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-809/Dheeraj_Tyres_Auto_Garage</td>
-                    <td>9326773584</td>
+                    <td>Dheeraj Tyres Auto Garage</td>
+                    <td class="phone">9326773584</td>
                     <td>SANDEEP</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-798/Profesional_Hair_Cutting_Salon</td>
-                    <td>9833360933</td>
+                    <td>Professional Hair Cutting Salon</td>
+                    <td class="phone">9833360933</td>
                     <td>PRADEEP</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-840/Shree_salespack</td>
-                    <td>9702413876</td>
-                    <td>PURABJI</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-832/Om_sai_power_cleaner_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-747/Shiv_Medical_&_General_Store</td>
-                    <td>9619902388</td>
+                    <td>Shiv Medical & General Store</td>
+                    <td class="phone">9619902388</td>
                     <td>ASIF</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400095-326/Khan_imitation</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-359/Aaliya_imitation</td>
-                    <td>885053301</td>
-                    <td>FARAZ</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-255/Arab_Mobail_Point</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-859/SWASTIK_ELECTRIC_AND_HARDWARE</td>
-                    <td>9664617204</td>
+                    <td>SWASTIK ELECTRIC & HARDWARE</td>
+                    <td class="phone">9664617204</td>
                     <td>MUKESH</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400095-339/Beauty_Collection</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-366/Mobile_Adda</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-542/NARAYANKAR_&_SON'S_MUSICALS</td>
-                    <td>9372070089</td>
+                    <td>NARAYANKAR & SON'S MUSICALS</td>
+                    <td class="phone">9372070089</td>
                     <td>NIKHIL</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-616/Ignite_General_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-619/Punit_Enterprise</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-771/Integrity_Constructions</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-812/Citylight_Real_Estate_Advisory</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-862/M_jet_toner_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-874/J9_online_store_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-669/Ankita_Tailors</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-905/Rajesh_vadapav_center</td>
-                    <td>9833022452</td>
+                    <td>Rajesh Vadapav Center</td>
+                    <td class="phone">9833022452</td>
                     <td>PARAG</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-806/Shreeji_enterprises</td>
-                    <td>7208555789</td>
-                    <td>SUSHEEL</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-371/Zaib_Kirana_store</td>
-                    <td>9833609344</td>
-                    <td>SAGAR</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-383/AS_Traders</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-354/Anna_samosa</td>
-                    <td>7208513527</td>
+                    <td>Anna Samosa</td>
+                    <td class="phone">7208513527</td>
                     <td>ANNA</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400092-257/C_R_Traders</td>
-                    <td>7021007384</td>
-                    <td>NAYAN</td>
-                    <td>STORE</td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400092-380/Manohar_Provision_Store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-481/Favourite_Gents_Solon</td>
-                    <td>9819713773</td>
+                    <td>Favourite Gents Salon</td>
+                    <td class="phone">9819713773</td>
                     <td>PRITAM</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-433/Saabri_Tailor</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-820/Sheris_kitchen_</td>
-                    <td>8591126041</td>
+                    <td>Sheris Kitchen</td>
+                    <td class="phone">8591126041</td>
                     <td>SARVESH</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-537/Mahadev_Properties</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-748/Deepak_store</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400095-318/Jeevika_Store_</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Store/IN-400067-827/Archana's_Beauty_Parlour&_Academy</td>
-                    <td>8692031994</td>
+                    <td>Archana's Beauty Parlour & Academy</td>
+                    <td class="phone">8692031994</td>
                     <td>RAVINDRA</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-902/Sk_Enterprises</td>
-                    <td>7738243924</td>
+                    <td>Sk Enterprises</td>
+                    <td class="phone">7738243924</td>
                     <td>SHYAM</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
                 <tr>
-                    <td>Store/IN-400067-722/Kismat_Laundry</td>
-                    <td>8169801808</td>
+                    <td>Kismat Laundry</td>
+                    <td class="phone">8169801808</td>
                     <td>SUNIL</td>
-                    <td>STORE</td>
+                    <td><span class="store-badge">STORE</span></td>
                 </tr>
+
             </tbody>
+
         </table>
+
     </div>
 
-    <script>
-        // Select the splash screen and the main content
-        const splashScreen = document.getElementById('splashScreen');
-        const mainContent = document.getElementById('mainContent');
+    <div class="footer">
+        © 2026 BOMJ Operations Dashboard • Designed with Amazon Inspired UI
+    </div>
 
-        // Function to hide the splash screen and show the main content
-        function showContent() {
-            // Add the 'hidden' class to fade out the splash screen
-            splashScreen.classList.add('hidden');
-            // Add the 'visible' class to fade in and move up the main content
-            mainContent.classList.add('visible');
-            // Optional: Change body background after transition for a smoother feel
-            setTimeout(() => {
-                document.body.style.backgroundColor = '#ffffff'; // Or your preferred final background
-            }, 1000); // Match the duration of the splash screen fade-out
-        }
+</div>
 
-        // Set a timeout to call showContent after 3 seconds (3000 milliseconds)
-        // You can adjust this duration as needed
-        setTimeout(showContent, 3000);
-    </script>
+<script>
+
+/* SPLASH SCREEN */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById("splashScreen").classList.add("hidden");
+        document.getElementById("mainContent").classList.add("visible");
+
+    },3000);
+
+});
+
+/* SEARCH FUNCTION */
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#employeeTable tbody tr");
+
+    rows.forEach(row=>{
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(filter) ? "" : "none";
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>
