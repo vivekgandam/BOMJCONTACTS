@@ -16,7 +16,7 @@
 }
 
 :root{
-    --amazon-blue:#131921;
+    --amazon-blue:#00A8E1;
     --amazon-light:#232f3e;
     --amazon-yellow:#febd69;
     --amazon-orange:#ff9900;
@@ -62,17 +62,14 @@ body{
     justify-content:center;
 }
 
-.amazon-smile{
-    width:170px;
-
-    filter:
-    brightness(0) saturate(100%)
-    invert(64%) sepia(96%)
-    saturate(749%)
-    hue-rotate(359deg)
-    brightness(101%) contrast(103%);
-
+.amazon-logo{
+    width:190px;
     animation:float 2s ease-in-out infinite;
+}
+
+.amazon-logo text{
+    fill:#00A8E1 !important;
+    font-weight:bold;
 }
 
 @keyframes float{
@@ -161,7 +158,7 @@ body{
 
 .brand-text p{
     font-size:14px;
-    opacity:0.8;
+    opacity:0.9;
 }
 
 /* SEARCH */
@@ -383,8 +380,8 @@ tbody tr:hover{
         padding-bottom:20px;
     }
 
-    .amazon-smile{
-        width:120px;
+    .amazon-logo{
+        width:140px;
     }
 
     .bomj-text{
@@ -445,10 +442,28 @@ tbody tr:hover{
 
     <div class="logo-wrapper">
 
-        <img 
-        class="amazon-smile"
-        src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
-        alt="Amazon Logo">
+        <!-- FIXED AMAZON LOGO -->
+        <svg class="amazon-logo" viewBox="0 0 500 150">
+
+            <text x="50%" y="55"
+            text-anchor="middle"
+            font-size="55"
+            font-family="Arial, sans-serif"
+            fill="#00A8E1"
+            font-weight="700">
+            amazon
+            </text>
+
+            <path d="M170 82 C220 120, 300 120, 345 88"
+            stroke="#ff9900"
+            stroke-width="10"
+            fill="none"
+            stroke-linecap="round"/>
+
+            <path d="M332 76 L347 88 L330 95"
+            fill="#ff9900"/>
+
+        </svg>
 
     </div>
 
@@ -468,7 +483,28 @@ tbody tr:hover{
 
         <div class="brand">
 
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
+            <!-- FIXED AMAZON LOGO -->
+            <svg class="amazon-logo" viewBox="0 0 500 150" style="width:120px;">
+
+                <text x="50%" y="55"
+                text-anchor="middle"
+                font-size="55"
+                font-family="Arial, sans-serif"
+                fill="#ffffff"
+                font-weight="700">
+                amazon
+                </text>
+
+                <path d="M170 82 C220 120, 300 120, 345 88"
+                stroke="#ff9900"
+                stroke-width="10"
+                fill="none"
+                stroke-linecap="round"/>
+
+                <path d="M332 76 L347 88 L330 95"
+                fill="#ff9900"/>
+
+            </svg>
 
             <div class="brand-text">
                 <h1>BOMJ Store Directory</h1>
@@ -505,9 +541,6 @@ tbody tr:hover{
             </thead>
 
             <tbody>
-
-<!-- PASTE ALL YOUR EXISTING TABLE ROWS HERE -->
-<!-- KEEPING YOUR DATA SAME -->
 <tr><td>Mahendra Water Supply</td><td class="phone">9833379406</td><td>MANGESH</td><td><span class="store-badge">SWEET VOICE XPT</span></td></tr>
 <tr><td>Make My Style Family Salon</td><td class="phone">9833379406</td><td>MANGESH</td><td><span class="store-badge">SWEET VOICE XPT</span></td></tr>
 <tr><td>Om Mobile</td><td class="phone">9833379406</td><td>MANGESH</td><td><span class="store-badge">SWEET VOICE XPT</span></td></tr>
@@ -640,6 +673,7 @@ tbody tr:hover{
 <tr><td>Kismat Laundry</td><td class="phone">8169801808</td><td>SUNIL</td><td><span class="store-badge">STORE</span></td></tr>
 
 
+
             </tbody>
 
         </table>
@@ -684,7 +718,6 @@ searchInput.addEventListener("keyup", function(){
     });
 
 });
-
 
 </script>
 
