@@ -35,9 +35,7 @@ body{
     color:var(--text);
 }
 
-/* =========================
-   SPLASH SCREEN
-========================= */
+/* SPLASH SCREEN */
 
 .splash-screen{
     position:fixed;
@@ -56,8 +54,6 @@ body{
     visibility:hidden;
 }
 
-/* AMAZON LOGO */
-
 .logo-wrapper{
     position:relative;
     display:flex;
@@ -68,14 +64,12 @@ body{
 
 .amazon-smile{
     width:170px;
-
     filter:
     brightness(0) saturate(100%)
     invert(64%) sepia(96%)
     saturate(749%)
     hue-rotate(359deg)
     brightness(101%) contrast(103%);
-
     animation:float 2s ease-in-out infinite;
 }
 
@@ -115,9 +109,7 @@ body{
     }
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
+/* MAIN CONTENT */
 
 .main-content{
     opacity:0;
@@ -131,9 +123,7 @@ body{
     transform:translateY(0);
 }
 
-/* =========================
-   TOPBAR
-========================= */
+/* TOPBAR */
 
 .topbar{
     background:var(--amazon-blue);
@@ -156,6 +146,7 @@ body{
 
 .brand img{
     width:120px;
+    filter:brightness(0) invert(1);
 }
 
 .brand-text{
@@ -166,15 +157,6 @@ body{
     font-size:32px;
     font-weight:700;
 }
-
-.brand-text p{
-    font-size:14px;
-    opacity:0.8;
-}
-
-/* =========================
-   SEARCH
-========================= */
 
 .search-box{
     margin-bottom:25px;
@@ -194,9 +176,7 @@ body{
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   TABLE SECTION
-========================= */
+/* TABLE */
 
 .table-container{
     background:white;
@@ -267,20 +247,12 @@ tbody tr:hover{
     display:inline-block;
 }
 
-/* =========================
-   FOOTER
-========================= */
-
 .footer{
     text-align:center;
     margin-top:35px;
     color:#6b7280;
     font-size:14px;
 }
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media(max-width:900px){
 
@@ -303,11 +275,7 @@ tbody tr:hover{
 
 <body>
 
-<!-- SPLASH SCREEN -->
-
 <div class="splash-screen" id="splashScreen">
-
-    <!-- AMAZON LOGO -->
 
     <div class="logo-wrapper">
 
@@ -326,11 +294,7 @@ tbody tr:hover{
 
 </div>
 
-<!-- MAIN CONTENT -->
-
 <div class="main-content" id="mainContent">
-
-    <!-- TOPBAR -->
 
     <div class="topbar">
 
@@ -340,20 +304,15 @@ tbody tr:hover{
 
             <div class="brand-text">
                 <h1>BOMJ Store Directory</h1>
-                <p>Store & SO Contact Management Portal</p>
             </div>
 
         </div>
 
     </div>
 
-    <!-- SEARCH -->
-
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search store name, SO name or contact number...">
     </div>
-
-    <!-- TABLE -->
 
     <div class="table-container">
 
@@ -374,68 +333,236 @@ tbody tr:hover{
 
             <tbody>
 
-                <tr>
-                    <td>Mahendra Water Supply</td>
-                    <td class="phone">9833379406</td>
-                    <td>MANGESH</td>
-                    <td><span class="store-badge">SWEET VOICE XPT</span></td>
-                </tr>
+<tr>
+<td>Mahendra Water Supply</td>
+<td class="phone">9833379406</td>
+<td>MANGESH</td>
+<td><span class="store-badge">SWEET VOICE XPT</span></td>
+</tr>
 
-                <tr>
-                    <td>Shree Swami Samarth Enterprises</td>
-                    <td class="phone">9321401678</td>
-                    <td>TUSAR</td>
-                    <td><span class="store-badge">SWAMI SAMARTH XPT</span></td>
-                </tr>
+<tr>
+<td>Shree Swami Samarth Enterprises</td>
+<td class="phone">9321401678</td>
+<td>TUSAR</td>
+<td><span class="store-badge">SWAMI SAMARTH XPT</span></td>
+</tr>
 
-                <tr>
-                    <td>S K Hosiery</td>
-                    <td class="phone">8452872547</td>
-                    <td>SAMEER</td>
-                    <td><span class="store-badge">MAHILA</span></td>
-                </tr>
+<tr>
+<td>S K Hosiery</td>
+<td class="phone">8452872547</td>
+<td>SAMEER</td>
+<td><span class="store-badge">MAHILA</span></td>
+</tr>
 
-                <tr>
-                    <td>SS Biryani Center</td>
-                    <td class="phone">7666824645</td>
-                    <td>AKIB</td>
-                    <td><span class="store-badge">SAI SALON</span></td>
-                </tr>
+<tr>
+<td>SS Biryani Center</td>
+<td class="phone">7666824645</td>
+<td>AKIB</td>
+<td><span class="store-badge">SAI SALON</span></td>
+</tr>
 
-                <tr>
-                    <td>Shree Swami Samarth Dairy</td>
-                    <td class="phone">9930396423</td>
-                    <td>AARTHI</td>
-                    <td><span class="store-badge">STORE</span></td>
-                </tr>
+<tr>
+<td>Shree Swami Samarth Dairy</td>
+<td class="phone">9930396423</td>
+<td>AARTHI</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
 
-                <tr>
-                    <td>Harshid Enterprises</td>
-                    <td class="phone">9324933479</td>
-                    <td>CHAWDA</td>
-                    <td><span class="store-badge">STORE</span></td>
-                </tr>
+<tr>
+<td>Harshid Enterprises</td>
+<td class="phone">9324933479</td>
+<td>CHAWDA</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
 
-                <tr>
-                    <td>Vinod General Store</td>
-                    <td class="phone">9867107838</td>
-                    <td>VINOD</td>
-                    <td><span class="store-badge">STORE</span></td>
-                </tr>
+<tr>
+<td>Vinod General Store</td>
+<td class="phone">9867107838</td>
+<td>VINOD</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
 
-                <tr>
-                    <td>Deepika General Store</td>
-                    <td class="phone">8898633083</td>
-                    <td>MAHESH</td>
-                    <td><span class="store-badge">STORE</span></td>
-                </tr>
+<tr>
+<td>Deepika General Store</td>
+<td class="phone">8898633083</td>
+<td>MAHESH</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
 
-                <tr>
-                    <td>Lama Corner Hotel</td>
-                    <td class="phone">8169656648</td>
-                    <td>NOMAN</td>
-                    <td><span class="store-badge">STORE</span></td>
-                </tr>
+<tr>
+<td>Lama Corner Hotel</td>
+<td class="phone">8169656648</td>
+<td>NOMAN</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Shree Bappa Sitaram Dairy Farm</td>
+<td class="phone">8005913273</td>
+<td>SHREE BAPPA</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Craze Tailors & Boutique</td>
+<td class="phone">9004380358</td>
+<td>RAHUL</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Nityanand Pan Bidi Shop</td>
+<td class="phone">9137399612</td>
+<td>PRINCE</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Welcome Stationery</td>
+<td class="phone">(WA ONLY) 9082805776</td>
+<td>KADIR</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Ganesh Electric Work</td>
+<td class="phone">9699916875</td>
+<td>AMLESH</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Shreeram Mobile Store</td>
+<td class="phone">9773531234</td>
+<td>SALIM</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Royal Pipe Centre</td>
+<td class="phone">8286427345</td>
+<td>NITHYA</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Dheeraj Tyres Auto Garage</td>
+<td class="phone">9326773584</td>
+<td>SANDEEP</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Professional Hair Cutting Salon</td>
+<td class="phone">9833360933</td>
+<td>PRADEEP</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Shree Salespack</td>
+<td class="phone">9702413876</td>
+<td>PURABJI</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Shiv Medical & General Store</td>
+<td class="phone">9619902388</td>
+<td>ASIF</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Aaliya Imitation</td>
+<td class="phone">885053301</td>
+<td>FARAZ</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Swastik Electric And Hardware</td>
+<td class="phone">9664617204</td>
+<td>MUKESH</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Narayankar & Son's Musicals</td>
+<td class="phone">9372070089</td>
+<td>NIKHIL</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Rajesh Vadapav Center</td>
+<td class="phone">9833022452</td>
+<td>PARAG</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Shreeji Enterprises</td>
+<td class="phone">7208555789</td>
+<td>SUSHEEL</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Zaib Kirana Store</td>
+<td class="phone">9833609344</td>
+<td>SAGAR</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Anna Samosa</td>
+<td class="phone">7208513527</td>
+<td>ANNA</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>C R Traders</td>
+<td class="phone">7021007384</td>
+<td>NAYAN</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Favourite Gents Salon</td>
+<td class="phone">9819713773</td>
+<td>PRITAM</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Sheris Kitchen</td>
+<td class="phone">8591126041</td>
+<td>SARVESH</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Archana's Beauty Parlour & Academy</td>
+<td class="phone">8692031994</td>
+<td>RAVINDRA</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>SK Enterprises</td>
+<td class="phone">7738243924</td>
+<td>SHYAM</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
+
+<tr>
+<td>Kismat Laundry</td>
+<td class="phone">8169801808</td>
+<td>SUNIL</td>
+<td><span class="store-badge">STORE</span></td>
+</tr>
 
             </tbody>
 
@@ -451,8 +578,6 @@ tbody tr:hover{
 
 <script>
 
-/* SPLASH SCREEN */
-
 window.addEventListener("load",()=>{
 
     setTimeout(()=>{
@@ -463,8 +588,6 @@ window.addEventListener("load",()=>{
     },3000);
 
 });
-
-/* SEARCH FUNCTION */
 
 const searchInput = document.getElementById("searchInput");
 
