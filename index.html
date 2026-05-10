@@ -56,27 +56,39 @@ body{
     visibility:hidden;
 }
 
-/* AMAZON LOGO WHITE */
+/* AMAZON LOGO */
 
 .logo-wrapper{
     position:relative;
-    display:inline-block;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
-.amazon-text{
-    position:absolute;
-    top:-18px;
-    left:18px;
-    font-size:34px;
-    font-weight:700;
+.amazon-word{
     color:white;
-    letter-spacing:1px;
+    font-size:72px;
+    font-weight:700;
+    line-height:1;
+    letter-spacing:-3px;
+    margin-bottom:-8px;
+    text-transform:lowercase;
+
+    animation:float 2s ease-in-out infinite;
 }
 
-.amazon-logo{
-    width:220px;
+.amazon-smile{
+    width:170px;
+
+    filter:
+    brightness(0) saturate(100%)
+    invert(64%) sepia(96%)
+    saturate(749%)
+    hue-rotate(359deg)
+    brightness(101%) contrast(103%);
+
     animation:float 2s ease-in-out infinite;
-    filter:drop-shadow(0 10px 25px rgba(0,0,0,0.4));
 }
 
 @keyframes float{
@@ -86,15 +98,15 @@ body{
 }
 
 .bomj-text{
-    margin-top:18px;
-    font-size:38px;
+    margin-top:40px;
+    font-size:42px;
     font-weight:700;
-    letter-spacing:6px;
+    letter-spacing:8px;
     color:white;
 }
 
 .loading-bar{
-    width:250px;
+    width:320px;
     height:6px;
     background:rgba(255,255,255,0.15);
     margin-top:35px;
@@ -116,7 +128,7 @@ body{
 }
 
 /* =========================
-   MAIN CONTAINER
+   MAIN CONTENT
 ========================= */
 
 .main-content{
@@ -132,13 +144,13 @@ body{
 }
 
 /* =========================
-   TOP NAVBAR
+   TOPBAR
 ========================= */
 
 .topbar{
     background:var(--amazon-blue);
     border-radius:22px;
-    padding:25px 30px;
+    padding:28px 30px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -151,7 +163,7 @@ body{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:18px;
+    gap:15px;
 }
 
 .brand img{
@@ -163,7 +175,7 @@ body{
 }
 
 .brand-text h1{
-    font-size:30px;
+    font-size:32px;
     font-weight:700;
 }
 
@@ -292,6 +304,14 @@ tbody tr:hover{
         min-width:850px;
     }
 
+    .amazon-word{
+        font-size:52px;
+    }
+
+    .amazon-smile{
+        width:130px;
+    }
+
 }
 
 </style>
@@ -304,13 +324,16 @@ tbody tr:hover{
 <div class="splash-screen" id="splashScreen">
 
     <!-- AMAZON LOGO -->
+
     <div class="logo-wrapper">
-        <div class="amazon-text">amazon</div>
+
+        <h1 class="amazon-word">amazon</h1>
 
         <img 
-        class="amazon-logo"
+        class="amazon-smile"
         src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
         alt="Amazon Logo">
+
     </div>
 
     <div class="bomj-text">BOMJ</div>
@@ -330,12 +353,14 @@ tbody tr:hover{
     <div class="topbar">
 
         <div class="brand">
+
             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg">
 
             <div class="brand-text">
                 <h1>BOMJ Store Directory</h1>
                 <p>Professional Store & SO Contact Management Portal</p>
             </div>
+
         </div>
 
     </div>
